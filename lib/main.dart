@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'core/constants/app_colors.dart';
+import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/login_screen.dart';
 
 void main() {
@@ -14,11 +14,7 @@ class SoukiApp extends StatelessWidget {
     return MaterialApp(
       title: 'SOUKI',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: AppColors.primary,
-        scaffoldBackgroundColor: AppColors.background,
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
       home: const LoginScreen(),
     );
   }
