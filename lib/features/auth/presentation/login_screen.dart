@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 'SOUKI',
                 style: TextStyle(
                   fontSize: 36,
-                  fontWeight: FontWeight.extrabold,
+                  fontWeight: FontWeight.w800,
                   color: AppColors.primary,
                   letterSpacing: 2,
                 ),

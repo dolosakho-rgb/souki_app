@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../wallet_bnpl/presentation/wallet_screen.dart';
+import '../../cart_checkout/presentation/cart_screen.dart';
 
 class HomeCatalogScreen extends StatelessWidget {
   const HomeCatalogScreen({super.key});
@@ -28,7 +29,9 @@ class HomeCatalogScreen extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen()));
+            },
           ),
         ],
       ),
@@ -53,7 +56,7 @@ class HomeCatalogScreen extends StatelessWidget {
                       children: [
                         Text('Crédit Stock Disponible (BNPL)', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textDark)),
                         SizedBox(height: 4),
-                        Text('15 000 MRU', style: TextStyle(fontSize: 22, fontWeight: FontWeight.extrabold, color: AppColors.textDark)),
+                        Text('15 000 MRU', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.textDark)),
                       ],
                     ),
                     ElevatedButton(
@@ -176,7 +179,7 @@ class _ProductCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 const SizedBox(height: 4),
-                Text(price, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.extrabold, fontSize: 16)),
+                Text(price, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w800, fontSize: 16)),
                 const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,

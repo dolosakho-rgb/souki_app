@@ -1,0 +1,18 @@
+   Woah! You appear to be trying to run flutter as root.
+   We strongly recommend running the flutter tool without superuser privileges.
+  /
+📎
+Analyzing souki_app...                                          
+
+  error • The named parameter 'children' isn't defined. Try correcting the name to an existing named parameter's name, or defining a named parameter with the name 'children' • lib/features/cart_checkout/presentation/cart_screen.dart:59:9 • undefined_named_parameter
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/cart_checkout/presentation/cart_screen.dart:96:13 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/cart_checkout/presentation/cart_screen.dart:100:13 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/cart_checkout/presentation/cart_screen.dart:107:13 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/cart_checkout/presentation/cart_screen.dart:111:13 • deprecated_member_use
+warning • Unused import: '../../../core/constants/app_colors.dart'. Try removing the import directive • lib/features/catalog/presentation/categories_screen.dart:2:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/catalog/presentation/categories_screen.dart:44:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/dashboard/presentation/main_dashboard_screen.dart:108:64 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/home_catalog/presentation/home_catalog_screen.dart:152:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/home_catalog/presentation/home_catalog_screen.dart:173:69 • deprecated_member_use
+
+10 issues found. (ran in 10.6s)

@@ -1,0 +1,46 @@
+[debug] [2026-07-24T22:31:29.264Z] ----------------------------------------------------------------------
+[debug] [2026-07-24T22:31:29.285Z] Command:       /data/data/com.termux/files/usr/bin/node /data/data/com.termux/files/usr/bin/firebase projects:create souki-bnpl-mr --json
+[debug] [2026-07-24T22:31:29.287Z] CLI Version:   15.24.0
+[debug] [2026-07-24T22:31:29.287Z] Platform:      android
+[debug] [2026-07-24T22:31:29.288Z] Node Version:  v26.3.1
+[debug] [2026-07-24T22:31:29.289Z] Detected Agent: unknown
+[debug] [2026-07-24T22:31:29.290Z] Time:          Fri Jul 24 2026 22:31:29 GMT+0000 (Greenwich Mean Time)
+[debug] [2026-07-24T22:31:29.290Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-07-24T22:31:29.325Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-07-24T22:31:29.327Z] > authorizing via signed-in user (dolosakho@gmail.com)
+[debug] [2026-07-24T22:31:29.432Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:29.434Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:29.440Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-07-24T22:31:29.440Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"souki-bnpl-mr","name":"souki-bnpl-mr"}
+[debug] [2026-07-24T22:31:30.721Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 200
+[debug] [2026-07-24T22:31:30.721Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"name":"operations/create_project.global.8056231680866681668"}
+[debug] [2026-07-24T22:31:30.725Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:30.726Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:30.728Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 [none]
+[debug] [2026-07-24T22:31:31.431Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 200
+[debug] [2026-07-24T22:31:31.437Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 {"name":"operations/create_project.global.8056231680866681668"}
+[debug] [2026-07-24T22:31:31.939Z] [Project Creation Poller] Retrying task index 0
+[debug] [2026-07-24T22:31:31.941Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:31.942Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:31.943Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 [none]
+[debug] [2026-07-24T22:31:32.220Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 200
+[debug] [2026-07-24T22:31:32.221Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 {"name":"operations/create_project.global.8056231680866681668"}
+[debug] [2026-07-24T22:31:33.223Z] [Project Creation Poller] Retrying task index 0
+[debug] [2026-07-24T22:31:33.226Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:33.227Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:33.230Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 [none]
+[debug] [2026-07-24T22:31:33.502Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 200
+[debug] [2026-07-24T22:31:33.503Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8056231680866681668 {"name":"operations/create_project.global.8056231680866681668","metadata":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.ProjectCreationStatus","gettable":true,"ready":true},"done":true,"response":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.Project","projectNumber":"136676622241","projectId":"souki-bnpl-mr","lifecycleState":"ACTIVE","name":"souki-bnpl-mr","createTime":"2026-07-24T22:31:30.793Z"}}
+[debug] [2026-07-24T22:31:33.510Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:33.511Z] Checked if tokens are valid: true, expires at: 1784935657363
+[debug] [2026-07-24T22:31:33.512Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1beta1/projects/souki-bnpl-mr:addFirebase [none]
+[debug] [2026-07-24T22:31:34.951Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1beta1/projects/souki-bnpl-mr:addFirebase 403
+[debug] [2026-07-24T22:31:34.952Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/souki-bnpl-mr:addFirebase {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-07-24T22:31:34.955Z] Request to https://firebase.googleapis.com/v1beta1/projects/souki-bnpl-mr:addFirebase had HTTP Error: 403, The caller does not have permission
+[debug] [2026-07-24T22:31:34.962Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/souki-bnpl-mr:addFirebase had HTTP Error: 403, The caller does not have permission
+    at responseToError (/data/data/com.termux/files/usr/lib/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/data/data/com.termux/files/usr/lib/node_modules/firebase-tools/lib/apiv2.js:415:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[error] 
+[error] Error: Failed to add Firebase to Google Cloud Platform project. See firebase-debug.log for more info.

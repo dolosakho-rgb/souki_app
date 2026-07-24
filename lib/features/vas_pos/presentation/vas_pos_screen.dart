@@ -15,6 +15,7 @@ class VasPosScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
+        child: Column(
         children: [
           // Section VAS : Recharges Télécom
           const Text('Services & Recharges (VAS)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textDark)),
@@ -85,6 +86,7 @@ class VasPosScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }
