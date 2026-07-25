@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/security/app_security.dart';
 
@@ -11,6 +12,60 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   String _selectedPaymentMethod = 'bnpl';
+  String? _commandeId;
+  List<Map<String, dynamic>> _lignes = [];
+  double _total = 0;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCommande();
+  }
+
+  Future<void> _loadCommande() async {
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId == null) return;
+      final boutiquier = await Supabase.instance.client
+          .from('boutiquiers')
+          .select('id')
+          .eq('auth_user_id', userId)
+          .single();
+      final boutiquierId = boutiquier['id'];
+      final commande = await Supabase.instance.client
+          .from('commandes')
+          .select('id, total')
+          .eq('boutiquier_id', boutiquierId)
+          .eq('statut', 'brouillon')
+          .maybeSingle();
+      if (commande == null) {
+        if (mounted) setState(() { _commandeId = null; _lignes = []; _total = 0; _loading = false; });
+        return;
+      }
+      final lignes = await Supabase.instance.client
+          .from('commande_lignes')
+          .select('id, quantite, prix_unitaire, produits(nom)')
+          .eq('commande_id', commande['id']);
+      double total = 0;
+      for (final l in lignes) {
+        total += (l['quantite'] as int) * (l['prix_unitaire'] as num).toDouble();
+      }
+      if (mounted) {
+        setState(() {
+          _commandeId = commande['id'];
+          _lignes = List<Map<String, dynamic>>.from(lignes);
+          _total = total;
+          _loading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _loading = false);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erreur chargement panier: ' + e.toString())));
+      }
+    }
+  }
 
   void _processCheckout(BuildContext context) {
     if (_selectedPaymentMethod == 'bnpl') {
@@ -120,7 +175,7 @@ class _CartScreenState extends State<CartScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Total à régler', style: TextStyle(color: AppColors.textMuted)),
-                      Text('1 700 MRU', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primary)),
+                      Text(_total.toStringAsFixed(0) + ' MRU', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primary)),
                     ],
                   ),
                   const SizedBox(height: 16),

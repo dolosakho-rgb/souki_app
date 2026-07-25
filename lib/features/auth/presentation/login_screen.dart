@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../home_catalog/presentation/home_catalog_screen.dart';
 
@@ -13,13 +14,58 @@ class _LoginScreenState extends State<LoginScreen> {
   final _phoneController = TextEditingController();
   final _pinController = TextEditingController();
 
-  void _login() {
-    if (_phoneController.text.isNotEmpty && _pinController.text.isNotEmpty) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeCatalogScreen()),
-      );
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  String _phoneToFakeEmail(String phone) {
+    final digitsOnly = phone.replaceAll(RegExp(r'[^0-9]'), '');
+    return '222$digitsOnly@khaymia.internal';
+  }
+
+  Future<void> _login() async {
+    final phone = _phoneController.text.trim();
+    final pin = _pinController.text.trim();
+
+    if (phone.isEmpty || pin.isEmpty) {
+      setState(() => _errorMessage = 'Veuillez remplir tous les champs.');
+      return;
     }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: _phoneToFakeEmail(phone),
+        password: pin,
+      );
+
+      if (response.user != null && mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeCatalogScreen()),
+        );
+      }
+    } on AuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message.contains('Invalid login credentials')
+            ? 'Numéro de téléphone ou code PIN incorrect.'
+            : e.message;
+      });
+    } catch (e) {
+      setState(() => _errorMessage = 'Une erreur est survenue. Réessayez.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _pinController.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,29 +111,42 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _pinController,
                 obscureText: true,
                 keyboardType: TextInputType.number,
-                maxLength: 4,
+                maxLength: 6,
                 decoration: InputDecoration(
-                  labelText: 'Code PIN (4 chiffres)',
+                  labelText: 'Code PIN (6 chiffres)',
                   prefixIcon: const Icon(Icons.lock_outline, color: AppColors.primary),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   filled: true,
                   fillColor: Colors.white,
                 ),
               ),
+              if (_errorMessage != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  _errorMessage!,
+                  style: const TextStyle(color: Colors.red, fontSize: 14),
+                ),
+              ],
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: _login,
+                  onPressed: _isLoading ? null : _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: const Text(
-                    'Se connecter',
-                    style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        )
+                      : const Text(
+                          'Se connecter',
+                          style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                 ),
               ),
             ],
