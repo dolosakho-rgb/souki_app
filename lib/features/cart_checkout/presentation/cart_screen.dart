@@ -111,6 +111,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
+        child: Column(
         children: [
           const Text('Articles sélectionnés', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textDark)),
           const SizedBox(height: 12),
@@ -189,7 +190,7 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Total à régler', style: TextStyle(color: AppColors.textMuted)),
@@ -210,6 +211,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ],
+        ),
       ),
     );
   }
