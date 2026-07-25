@@ -114,33 +114,51 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           const Text('Articles sélectionnés', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textDark)),
           const SizedBox(height: 12),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(Icons.inventory_2, color: AppColors.primary),
-                  ),
-                  const SizedBox(width: 12),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Sac de Riz (25kg)', style: TextStyle(fontWeight: FontWeight.bold)),
-                        SizedBox(height: 4),
-                        Text('Quantité : 2', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
-                      ],
+            if (_loading)
+              const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator()))
+            else if (_lignes.isEmpty)
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('Votre panier est vide', style: TextStyle(color: AppColors.textMuted)),
+              )
+            else
+              ..._lignes.map((l) {
+                final produit = l['produits'] as Map<String, dynamic>?;
+                final nom = produit != null ? produit['nom'] as String : 'Produit';
+                final quantite = l['quantite'] as int;
+                final prixUnitaire = (l['prix_unitaire'] as num).toDouble();
+                final sousTotal = quantite * prixUnitaire;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(8)),
+                            child: const Icon(Icons.inventory_2, color: AppColors.primary),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(nom, style: const TextStyle(fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 4),
+                                Text('Quantite : ' + quantite.toString(), style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                              ],
+                            ),
+                          ),
+                          Text(sousTotal.toStringAsFixed(0) + ' MRU', style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary, fontSize: 16)),
+                        ],
+                      ),
                     ),
                   ),
-                  const Text('1 700 MRU', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary, fontSize: 16)),
-                ],
-              ),
-            ),
-          ),
+                );
+              }),
           const SizedBox(height: 24),
           const Text('Mode de Paiement', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textDark)),
           const SizedBox(height: 12),
