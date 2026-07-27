@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants/app_colors.dart';
 
 /// Dialogue de saisie du code PIN, utilisé pour sécuriser
@@ -9,23 +10,68 @@ class PinVerificationDialog extends StatefulWidget {
   const PinVerificationDialog({super.key, required this.onAuthenticated});
 
   @override
-  State<PinVerificationDialog> createState() => _PinVerificationDialogState();
+  State<PinVerificationDialog> createState() =>
+      _PinVerificationDialogState();
 }
 
 class _PinVerificationDialogState extends State<PinVerificationDialog> {
   final TextEditingController _pinController = TextEditingController();
   String? _errorText;
+  bool _isLoading = false;
 
-  // TODO: remplacer par une vérification réelle (backend / stockage sécurisé)
-  static const String _mockPin = '1234';
-
-  void _verify() {
-    if (_pinController.text == _mockPin) {
-      Navigator.pop(context);
-      widget.onAuthenticated();
-    } else {
+  Future<void> _verify() async {
+    final pin = _pinController.text.trim();
+    if (pin.length != 6) {
       setState(() {
+        _errorText = 'Le code PIN doit contenir 6 chiffres';
+      });
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorText = null;
+    });
+
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    final email = currentUser?.email;
+
+    if (email == null) {
+      setState(() {
+        _isLoading = false;
+        _errorText = 'Session invalide. Veuillez vous reconnecter.';
+      });
+      return;
+    }
+
+    try {
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: email,
+        password: pin,
+      );
+
+      if (!mounted) return;
+
+      if (response.user != null) {
+        Navigator.pop(context);
+        widget.onAuthenticated();
+      } else {
+        setState(() {
+          _isLoading = false;
+          _errorText = 'Code PIN incorrect';
+        });
+      }
+    } on AuthException {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
         _errorText = 'Code PIN incorrect';
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _errorText = 'Erreur de connexion. Réessayez.';
       });
     }
   }
@@ -49,7 +95,8 @@ class _PinVerificationDialogState extends State<PinVerificationDialog> {
             controller: _pinController,
             keyboardType: TextInputType.number,
             obscureText: true,
-            maxLength: 4,
+            maxLength: 6,
+            enabled: !_isLoading,
             decoration: InputDecoration(
               errorText: _errorText,
               border: const OutlineInputBorder(),
@@ -59,7 +106,7 @@ class _PinVerificationDialogState extends State<PinVerificationDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: _isLoading ? null : () => Navigator.pop(context),
           child: const Text('Annuler'),
         ),
         ElevatedButton(
@@ -67,8 +114,17 @@ class _PinVerificationDialogState extends State<PinVerificationDialog> {
             backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
           ),
-          onPressed: _verify,
-          child: const Text('Confirmer'),
+          onPressed: _isLoading ? null : _verify,
+          child: _isLoading
+              ? const SizedBox(
+                  height: 16,
+                  width: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const Text('Confirmer'),
         ),
       ],
     );

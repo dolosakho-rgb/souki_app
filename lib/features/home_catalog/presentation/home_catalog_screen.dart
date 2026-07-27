@@ -14,6 +14,7 @@ class HomeCatalogScreen extends StatefulWidget {
 class _HomeCatalogScreenState extends State<HomeCatalogScreen> {
   double creditDisponible = 0;
   double creditUtilise = 0;
+  String nomBoutique = 'Chargement...';
   bool isLoadingCredit = true;
   List<Map<String, dynamic>> produits = [];
   bool isLoadingProduits = true;
@@ -31,13 +32,14 @@ class _HomeCatalogScreenState extends State<HomeCatalogScreen> {
       if (userId == null) return;
       final data = await Supabase.instance.client
           .from('boutiquiers')
-          .select('credit_disponible, credit_utilise')
+          .select('credit_disponible, credit_utilise, nom')
           .eq('auth_user_id', userId)
           .single();
       if (mounted) {
         setState(() {
           creditDisponible = (data['credit_disponible'] as num).toDouble();
           creditUtilise = (data['credit_utilise'] as num).toDouble();
+          nomBoutique = (data['nom'] as String?) ?? 'Boutique';
           isLoadingCredit = false;
         });
       }
@@ -157,10 +159,10 @@ class _HomeCatalogScreenState extends State<HomeCatalogScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         elevation: 0,
-        title: const Column(
+        title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Boutique El Baraka', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+            Text(nomBoutique, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
             Text('Nouakchott, Mauritanie', style: TextStyle(fontSize: 12, color: Colors.white70)),
           ],
         ),

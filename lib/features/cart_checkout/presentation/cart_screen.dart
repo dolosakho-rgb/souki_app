@@ -13,6 +13,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   String _selectedPaymentMethod = 'bnpl';
   String? _commandeId;
+  String? _boutiquierId;
   List<Map<String, dynamic>> _lignes = [];
   double _total = 0;
   bool _loading = true;
@@ -33,6 +34,7 @@ class _CartScreenState extends State<CartScreen> {
           .eq('auth_user_id', userId)
           .single();
       final boutiquierId = boutiquier['id'];
+      _boutiquierId = boutiquierId;
       final commande = await Supabase.instance.client
           .from('commandes')
           .select('id, total')
@@ -67,14 +69,56 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
+  Future<void> _confirmBnplOrder(BuildContext context) async {
+    if (_commandeId == null || _boutiquierId == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Commande introuvable. Veuillez réessayer.')),
+      );
+      return;
+    }
+
+    try {
+      await Supabase.instance.client
+          .from('commandes')
+          .update({'statut': 'confirmee'})
+          .eq('id', _commandeId as Object);
+
+      final boutiquierData = await Supabase.instance.client
+          .from('boutiquiers')
+          .select('credit_utilise')
+          .eq('id', _boutiquierId as Object)
+          .single();
+
+      final creditUtiliseActuel =
+          (boutiquierData['credit_utilise'] as num).toDouble();
+
+      final updateResult = await Supabase.instance.client
+        .from('boutiquiers')
+        .update({'credit_utilise': creditUtiliseActuel + _total})
+        .eq('id', _boutiquierId as Object)
+        .select();
+
+
+    if (!mounted) return;
+    _showSuccessDialog(
+          context, 'Commande validée par Crédit Stock (BNPL) sécurisé !');
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur lors de la validation : $e')),
+      );
+    }
+  }
+
   void _processCheckout(BuildContext context) {
     if (_selectedPaymentMethod == 'bnpl') {
       // Exiger le code PIN sécurisé pour le crédit BNPL
       showDialog(
         context: context,
-        builder: (context) => PinVerificationDialog(
+        builder: (dialogContext) => PinVerificationDialog(
           onAuthenticated: () {
-            _showSuccessDialog(context, 'Commande validée par Crédit Stock (BNPL) sécurisé !');
+            _confirmBnplOrder(context);
           },
         ),
       );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../home_catalog/presentation/home_catalog_screen.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String _phoneToFakeEmail(String phone) {
     final digitsOnly = phone.replaceAll(RegExp(r'[^0-9]'), '');
-    return '222$digitsOnly@khaymia.internal';
+    return '$digitsOnly@khaymia.internal';
   }
 
   Future<void> _login() async {
@@ -147,6 +148,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Se connecter',
                           style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                         ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignupScreen()),
+                  );
+                },
+                child: const Text(
+                  "Pas encore de compte ? S'inscrire",
+                  style: TextStyle(color: AppColors.primary),
                 ),
               ),
             ],
