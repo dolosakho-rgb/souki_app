@@ -152,13 +152,11 @@ class _WalletScreenState extends State<WalletScreen> {
     final montantRembourse = _creditUtilise;
 
     try {
-      final nouveauDisponible = _creditDisponible + montantRembourse;
 
       await Supabase.instance.client
           .from('boutiquiers')
           .update({
-            'credit_disponible': nouveauDisponible,
-            'credit_utilise': 0,
+              'credit_utilise': 0,
           })
           .eq('id', _boutiquierId as Object);
 
@@ -170,7 +168,6 @@ class _WalletScreenState extends State<WalletScreen> {
 
       if (!mounted) return;
       setState(() {
-        _creditDisponible = nouveauDisponible;
         _creditUtilise = 0;
         _actionEnCours = false;
       });

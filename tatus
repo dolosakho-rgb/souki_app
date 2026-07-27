@@ -1,0 +1,19 @@
+[33m9495703[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m fix-credit-utilise-select-verification
+[33m0c94799[m fix-column-wrapper
+[33m8fda9e4[m cart-dynamique-ok
+[33m3583ef7[m avant-cart-dynamique
+[33m47f5dd7[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Migration Firebase vers Supabase: SDK installé et initialisé dans main.dart
+[33m6b8dd18[m Nettoyage: suppression categories_screen orphelin, branchement du panier dans la navigation
+[33m3b73383[m fix(project): ajoute pubspec.yaml, android/ et squelette Flutter manquants
+[33mb85a517[m fix(dashboard): restaure le contenu du tableau de bord principal supprimé par erreur; supprime le doublon du panier
+[33ma9d4e54[m chore: ignore flutter SDK folder
+[33mf78f290[m feat(i18n): Ajout du support multilingue Français, Arabe et Soninké pour SOUKI
+[33m5471199[m feat(delivery): Ajout du module de suivi des livraisons en temps réel pour SOUKI
+[33m882575f[m feat(cart): Ajout du panier virtuel et validation de commande par crédit BNPL
+[33mcc84864[m feat(dashboard): Lien direct du bouton Catalogue vers les catégories de produits
+[33me5bef3e[m feat(catalog): Ajout des catégories Téléphonie, Électroménager, Habillement et Parfumerie
+[33m0012c00[m feat(dashboard): Intégration du tableau de bord principal et navigation unifiée
+[33m2c9c52f[m refactor(design & security): Ajout du Design System global et du pavé de sécurité PIN pour BNPL
+[33m93aaf19[m feat: Ajout Panier/Tunnel de commande BNPL et Module VAS/Mini-POS
+[33mfa9ecaa[m feat: Module Auth, Catalogue FMCG et Wallet BNPL
+[33mbe055af[m Initial commit
