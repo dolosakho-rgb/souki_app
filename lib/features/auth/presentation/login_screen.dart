@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../home_catalog/presentation/home_catalog_screen.dart';
+import '../../admin/presentation/admin_dashboard_screen.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -44,10 +45,30 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (response.user != null && mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeCatalogScreen()),
-        );
+        final adminData = await Supabase.instance.client
+            .from('admins')
+            .select('nom, role')
+            .eq('auth_user_id', response.user!.id)
+            .maybeSingle();
+
+        if (!mounted) return;
+
+        if (adminData != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AdminDashboardScreen(
+                adminNom: adminData['nom'] as String,
+                adminRole: adminData['role'] as String,
+              ),
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeCatalogScreen()),
+          );
+        }
       }
     } on AuthException catch (e) {
       setState(() {
