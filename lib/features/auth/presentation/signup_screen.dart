@@ -19,6 +19,32 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool _isLoading = false;
   String? _errorMessage;
+  List<Map<String, dynamic>> _villes = [];
+  String? _selectedVilleId;
+  bool _loadingVilles = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVilles();
+  }
+
+  Future<void> _loadVilles() async {
+    try {
+      final data = await Supabase.instance.client
+          .from('villes')
+          .select('id, nom')
+          .order('nom');
+      if (mounted) {
+        setState(() {
+          _villes = List<Map<String, dynamic>>.from(data);
+          _loadingVilles = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) setState(() => _loadingVilles = false);
+    }
+  }
 
   String _phoneToFakeEmail(String phone) {
     final digitsOnly = phone.replaceAll(RegExp(r'[^0-9]'), '');
@@ -32,7 +58,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final pin = _pinController.text.trim();
     final adresse = _adresseController.text.trim();
 
-    if (nom.isEmpty || boutiqueNom.isEmpty || phone.isEmpty || pin.isEmpty) {
+    if (nom.isEmpty || boutiqueNom.isEmpty || phone.isEmpty || pin.isEmpty || _selectedVilleId == null) {
       setState(() => _errorMessage = 'Veuillez remplir tous les champs obligatoires.');
       return;
     }
@@ -56,6 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
           'telephone': phone,
           'adresse': adresse,
           'pin': pin,
+          'ville_id': _selectedVilleId,
         },
       );
 
@@ -140,6 +167,20 @@ class _SignupScreenState extends State<SignupScreen> {
               controller: _adresseController,
               decoration: const InputDecoration(labelText: 'Adresse (optionnel)'),
             ),
+            const SizedBox(height: 16),
+            _loadingVilles
+                ? const Center(child: CircularProgressIndicator())
+                : DropdownButtonFormField<String>(
+                    initialValue: _selectedVilleId,
+                    decoration: const InputDecoration(labelText: 'Ville'),
+                    items: _villes
+                        .map((v) => DropdownMenuItem<String>(
+                              value: v['id'] as String,
+                              child: Text(v['nom'] as String),
+                            ))
+                        .toList(),
+                    onChanged: (value) => setState(() => _selectedVilleId = value),
+                  ),
             const SizedBox(height: 16),
             TextField(
               controller: _pinController,

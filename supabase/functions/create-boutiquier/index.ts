@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { nom, boutique_nom, telephone, adresse, pin } = await req.json();
+    const { nom, boutique_nom, telephone, adresse, pin, ville_id } = await req.json();
 
     if (!nom || !boutique_nom || !telephone || !pin) {
       return new Response(
@@ -84,6 +84,7 @@ Deno.serve(async (req) => {
         boutique_nom,
         telephone: telephoneClean,
         adresse: adresse ?? null,
+      ville_id: ville_id ?? null,
       })
       .select()
       .single();
