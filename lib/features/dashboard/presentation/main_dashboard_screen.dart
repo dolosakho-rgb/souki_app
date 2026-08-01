@@ -3,6 +3,9 @@ import '../../../core/constants/app_colors.dart';
 import '../../services/presentation/business_services_screen.dart';
 import '../../services/presentation/subscription_screen.dart';
 
+// Feature flag temporaire : passer a true pour reafficher le bandeau credit
+const bool kShowCreditBanner = false;
+
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});
 
@@ -15,8 +18,6 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
 
   final List<Widget> _screens = [
     const _HomeOverviewTab(),
-    const BusinessServicesScreen(),
-    const SubscriptionScreen(),
   ];
 
   @override
@@ -32,14 +33,6 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.storefront),
             label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business_center),
-            label: 'Services & Ads',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.workspace_premium),
-            label: 'Mon Formulaire',
           ),
         ],
       ),
@@ -65,24 +58,26 @@ class _HomeOverviewTab extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(20),
+          if (kShowCreditBanner) ...[
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Plafond Crédit Disponible', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                  SizedBox(height: 4),
+                  Text('75 000 MRU', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 12),
+                  LinearProgressIndicator(value: 0.65, backgroundColor: Colors.white24, valueColor: AlwaysStoppedAnimation<Color>(Colors.amber)),
+                ],
+              ),
             ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Plafond Crédit Disponible', style: TextStyle(color: Colors.white70, fontSize: 13)),
-                SizedBox(height: 4),
-                Text('75 000 MRU', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-                SizedBox(height: 12),
-                LinearProgressIndicator(value: 0.65, backgroundColor: Colors.white24, valueColor: AlwaysStoppedAnimation<Color>(Colors.amber)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
+          ],
           const Text('Accès Rapide', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           Row(

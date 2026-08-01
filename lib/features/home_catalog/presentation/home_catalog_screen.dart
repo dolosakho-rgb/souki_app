@@ -168,12 +168,6 @@ class _HomeCatalogScreenState extends State<HomeCatalogScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.account_balance_wallet_outlined, color: Colors.white),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
-            },
-          ),
-          IconButton(
             icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen()));
@@ -185,39 +179,6 @@ class _HomeCatalogScreenState extends State<HomeCatalogScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              color: AppColors.primary,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.accent,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Crédit Stock Disponible (BNPL)', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textDark)),
-                        SizedBox(height: 4),
-                        isLoadingCredit
-                                ? const SizedBox(height: 22, width: 22, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.textDark))
-                                : Text('${(creditDisponible - creditUtilise).toStringAsFixed(0)} MRU', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.textDark)),
-                      ],
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
-                      },
-                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryDark),
-                      child: const Text('Gérer', style: TextStyle(color: Colors.white)),
-                    )
-                  ],
-                ),
-              ),
-            ),
             const SizedBox(height: 16),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
