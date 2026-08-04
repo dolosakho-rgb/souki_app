@@ -2,3 +2,4 @@ flutter/
 .idea/
 .dart_tool/
 build/
+supabase/.temp/
