@@ -3,3 +3,9 @@ flutter/
 .dart_tool/
 build/
 supabase/.temp/
+
+# Supabase local
+supabase/.temp/
+remote_schema.sql
+supabase/migrations_archive/
+supabase/migrations_backup/
