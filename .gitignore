@@ -9,3 +9,4 @@ supabase/.temp/
 remote_schema.sql
 supabase/migrations_archive/
 supabase/migrations_backup/
+android/.kotlin/
