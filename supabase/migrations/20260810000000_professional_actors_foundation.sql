@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS public.fournisseur_grossistes (
     updated_at timestamptz DEFAULT now(),
 
     CONSTRAINT fournisseur_grossistes_statut_check
-    CHECK (statut IN ('actif','inactif','bloque')),
+    CHECK (statut IN ('en_attente','actif','inactif','bloque')),
 
     UNIQUE(fournisseur_id, grossiste_id)
 );
