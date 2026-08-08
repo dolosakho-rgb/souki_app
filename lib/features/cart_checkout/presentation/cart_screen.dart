@@ -84,20 +84,6 @@ class _CartScreenState extends State<CartScreen> {
           .update({'statut': 'confirmee'})
           .eq('id', _commandeId as Object);
 
-      final boutiquierData = await Supabase.instance.client
-          .from('boutiquiers')
-          .select('credit_utilise')
-          .eq('id', _boutiquierId as Object)
-          .single();
-
-      final creditUtiliseActuel =
-          (boutiquierData['credit_utilise'] as num).toDouble();
-
-      final updateResult = await Supabase.instance.client
-        .from('boutiquiers')
-        .update({'credit_utilise': creditUtiliseActuel + _total})
-        .eq('id', _boutiquierId as Object)
-        .select();
 
 
     if (!mounted) return;
